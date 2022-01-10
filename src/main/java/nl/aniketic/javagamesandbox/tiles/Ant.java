@@ -2,6 +2,7 @@ package nl.aniketic.javagamesandbox.tiles;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Ant {
 
@@ -11,16 +12,20 @@ public class Ant {
     private static final int LEG_SIZE = 10;
     private static final int FEELER_SIZE = 10;
 
+    private final Random random;
+
     private double x;
     private double y;
     private double speed;
     private double direction;
+
 
     public Ant(double x, double y, double speed, double direction) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.direction = direction;
+        this.random = new Random();
     }
 
     public double getX() {
@@ -119,5 +124,16 @@ public class Ant {
 
         x = newX;
         y = newY;
+
+        randomMovementPattern();
+    }
+
+    private void randomMovementPattern() {
+        int rnd = random.nextInt(4);
+        if(rnd == 0) {
+            direction += 20;
+        } else if (rnd == 1) {
+            direction -= 20;
+        }
     }
 }
