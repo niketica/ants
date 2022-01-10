@@ -18,17 +18,21 @@ public class ImageLoader {
     private static final String GRASS_TILE_03 = "images/tiles/tile_grass_03.png";
     private static final String GRASS_TILE_04 = "images/tiles/tile_grass_04.png";
 
+    private static final String ANT_01 = "images/ant/ant01.png";
+    private static final String ANT_02 = "images/ant/ant02.png";
+
     private final Map<ImageType, List<Image>> imageMap;
 
     public ImageLoader() {
-        List<Image> grassList = List.of(
+        imageMap = new HashMap<>();
+        imageMap.put(ImageType.GRASS, List.of(
                 loadImage(GRASS_TILE_01),
                 loadImage(GRASS_TILE_02),
                 loadImage(GRASS_TILE_03),
-                loadImage(GRASS_TILE_04));
-
-        imageMap = new HashMap<>();
-        imageMap.put(ImageType.GRASS, grassList);
+                loadImage(GRASS_TILE_04)));
+        imageMap.put(ImageType.ANT, List.of(
+                loadImage(ANT_01),
+                loadImage(ANT_02)));
     }
 
     public Image getImage(ImageType imageType) {
@@ -40,6 +44,10 @@ public class ImageLoader {
 
         Random rnd = new Random();
         return images.get(rnd.nextInt(images.size()));
+    }
+
+    public List<Image> getImages(ImageType imageType) {
+        return imageMap.get(imageType);
     }
 
     private Image loadImage(String path) {

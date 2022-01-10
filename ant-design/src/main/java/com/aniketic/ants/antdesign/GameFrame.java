@@ -5,10 +5,11 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class GameFrame extends JPanel implements Runnable {
 
@@ -40,7 +41,8 @@ public class GameFrame extends JPanel implements Runnable {
             }
         }
 
-        ant = new Ant(WIDTH / 2, HEIGHT / 2, 0, 0);
+        List<Image> antImages = imageLoader.getImages(ImageType.ANT);
+        ant = new Ant(WIDTH / 2, HEIGHT / 2, 0, 0, antImages.toArray(new Image[antImages.size()]));
     }
 
     @Override
@@ -48,9 +50,18 @@ public class GameFrame extends JPanel implements Runnable {
         super.paintComponent(g);
 
         grassTiles.forEach(gt -> g.drawImage(gt.getImage(), gt.getX(), gt.getY(), this));
-        ant.paint(g);
+
+        drawAnt((Graphics2D) g);
 
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    private void drawAnt(Graphics2D g) {
+        Image antImage = ant.getImage();
+        int x = (int) (ant.getX() + (antImage.getWidth(this) / 2));
+        int y = (int) (ant.getY() + (antImage.getHeight(this) / 2));
+        g.rotate(Math.toRadians(ant.getDirection()), x, y);
+        g.drawImage(antImage, (int)ant.getX(), (int)ant.getY(), this);
     }
 
     @Override
@@ -88,6 +99,6 @@ public class GameFrame extends JPanel implements Runnable {
     }
 
     private void tick() {
-        // Nothing yet
+        ant.tick();
     }
 }

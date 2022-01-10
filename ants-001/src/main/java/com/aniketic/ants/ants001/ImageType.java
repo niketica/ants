@@ -1,5 +1,6 @@
 package com.aniketic.ants.ants001;
 
 public enum ImageType {
-    GRASS
+    GRASS,
+    ANT
 }
