@@ -1,4 +1,4 @@
-package nl.aniketic.javagamesandbox.tiles;
+package com.aniketic.ants.antdesign;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,9 +21,7 @@ public class GameFrame extends JPanel implements Runnable {
     private final ImageLoader imageLoader;
 
     private List<Tile> grassTiles;
-    private List<Ant> ants;
-    private final int nrOfAnts = 40;
-    private final Random random = new Random();
+    private Ant ant;
 
     public GameFrame() {
         imageLoader = new ImageLoader();
@@ -42,34 +40,7 @@ public class GameFrame extends JPanel implements Runnable {
             }
         }
 
-        ants = new ArrayList<>();
-
-        for (int i = 0; i< nrOfAnts; i++) {
-            ants.add(createAnt());
-        }
-    }
-
-    private Ant createAnt() {
-        int x = 0;
-        int y = 0;
-        int rnd1 = random.nextInt(2);
-        int rnd2 = random.nextInt(2);
-
-        if (rnd1 == 0) {
-            x = random.nextInt(WIDTH);
-            if (rnd2 == 0) {
-                y = HEIGHT;
-            }
-        } else {
-            y = random.nextInt(HEIGHT);
-            if (rnd2 == 0) {
-                x = WIDTH;
-            }
-        }
-
-        int direction = random.nextInt(360);
-        int speed = random.nextInt(5) + 2;
-        return new Ant(x, y, speed, direction);
+        ant = new Ant(WIDTH / 2, HEIGHT / 2, 0, 0);
     }
 
     @Override
@@ -77,7 +48,7 @@ public class GameFrame extends JPanel implements Runnable {
         super.paintComponent(g);
 
         grassTiles.forEach(gt -> g.drawImage(gt.getImage(), gt.getX(), gt.getY(), this));
-        ants.forEach(ant -> ant.paint(g));
+        ant.paint(g);
 
         Toolkit.getDefaultToolkit().sync();
     }
@@ -117,25 +88,6 @@ public class GameFrame extends JPanel implements Runnable {
     }
 
     private void tick() {
-        List<Ant> antsToRemove = new ArrayList<>();
-
-        ants.forEach(ant -> {
-            ant.tick();
-
-            double direction = ant.getDirection();
-            int offSet = 40;
-            if (ant.getX() < -offSet && (direction >= 90 && direction <= 180)
-                    || ant.getX() > WIDTH + offSet && (direction <= 90 || direction >= 180)
-                    || ant.getY() < -offSet && direction >= 180
-                    || ant.getY() > HEIGHT + offSet && direction <= 180) {
-                antsToRemove.add(ant);
-            }
-        });
-
-        ants.removeAll(antsToRemove);
-
-        for (int i=0; i<antsToRemove.size(); i++) {
-            ants.add(createAnt());
-        }
+        // Nothing yet
     }
 }

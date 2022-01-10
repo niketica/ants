@@ -1,4 +1,4 @@
-package nl.aniketic.javagamesandbox.tiles;
+package com.aniketic.ants.ants001;
 
 import java.awt.Color;
 import java.awt.Graphics;

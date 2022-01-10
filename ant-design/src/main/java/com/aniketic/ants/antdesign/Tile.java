@@ -1,4 +1,4 @@
-package nl.aniketic.javagamesandbox.tiles;
+package com.aniketic.ants.antdesign;
 
 import java.awt.Image;
 
